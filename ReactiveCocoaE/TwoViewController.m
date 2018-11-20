@@ -17,7 +17,7 @@
 - (IBAction)btnClick:(id)sender {
     if (self.delegateSignal) {
         [self.delegateSignal subscribeNext:^(id x) {
-            
+            [self dismissViewControllerAnimated:YES completion:nil];
         }];
     }
     
