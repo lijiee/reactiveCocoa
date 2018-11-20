@@ -201,25 +201,25 @@
 //
 //    [signal sendNext:@"我是在5s之后打印的"];
     //重复 replay
-    RACSignal *signal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
-        
-        [subscriber sendNext:@1];
-        [subscriber sendNext:@2];
-        
-        return nil;
-    }] replay];
-    
-    [signal subscribeNext:^(id x) {
-        
-        NSLog(@"第一个订阅者%@",x);
-        
-    }];
-    
-    [signal subscribeNext:^(id x) {
-        
-        NSLog(@"第二个订阅者%@",x);
-        
-    }];
+//    RACSignal *signal = [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        
+//        [subscriber sendNext:@1];
+//        [subscriber sendNext:@2];
+//        
+//        return nil;
+//    }] replay];
+//    
+//    [signal subscribeNext:^(id x) {
+//        
+//        NSLog(@"第一个订阅者%@",x);
+//        
+//    }];
+//    
+//    [signal subscribeNext:^(id x) {
+//        
+//        NSLog(@"第二个订阅者%@",x);
+//        
+//    }];
 }
 
 - (void)inintView{
