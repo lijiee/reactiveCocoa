@@ -48,27 +48,95 @@
         NSLog(@"%@",x);
     }];
     
-    //创建信号
-    
-    RACSubject *subject = [RACSubject subject];
+//    //创建信号
+//
+//    RACSubject *subject = [RACSubject subject];
+//
+//    //订阅信号
+//    [subject subscribeNext:^(id x) {
+//        NSLog(@"订阅第一个信号");
+//    }];
+//    [subject subscribeNext:^(id x) {
+//        NSLog(@"订阅第二个信号");
+//
+//    }];
+//
+//    [subject sendNext:@1];
+//    [subject sendNext:@2];
 
-    //订阅信号
-    [subject subscribeNext:^(id x) {
-        NSLog(@"订阅第一个信号");
+    //创建concat信号:按照一定顺序拼接信号，当发出多个信号后，有序接受
+    
+//    RACSignal *signalA = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext:@1];
+//        [subscriber sendCompleted];
+//        return nil;
+//    }];
+//
+//    RACSignal *signalB = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext:@2];
+//        return nil;
+//    }];
+//    RACSignal *concatSignal = [signalA concat:signalB];
+//    [concatSignal subscribeNext:^(id x) {
+//
+//        NSLog(@"%@",x);
+//    }];
+    //then :用于连接两个信号，当第一个信号完成，才会连接then返回的信号
+    
+//    [[[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext: @1];
+//        [subscriber sendCompleted];
+//        return nil;
+//    }] then:^RACSignal *{
+//        return [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//            [subscriber sendNext:@2];
+//            return nil;
+//        }];
+//    }] subscribeNext:^(id x) {
+//        NSLog(@"%@",x);
+//    }];
+    //merge：把多个信号合并为一个信号 ，任何一个信号有新值都会调用
+//    RACSignal *singalC = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext:@1];
+//        return nil;
+//    }];
+//    RACSignal *singalD = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext:@2];
+//        return nil;
+//    }];
+//    RACSignal *mergeSignal = [singalC merge:singalD];
+//
+//    [mergeSignal subscribeNext:^(id x) {
+//        NSLog(@"%@",x);
+//    }];
+    
+    //zipWith:把两个信号压缩成一个信号，只有当两个信号同时发出信号的时候，才会触发next；并把两个信号合并成一个元组
+//    RACSignal *signalF = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext:@1];
+//        return nil;
+//
+//    }];
+//    RACSignal *signalE = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+//        [subscriber sendNext:@2];
+//        return nil;
+//    }];
+//    RACSignal *zipSignal = [signalE zipWith:signalF];
+//    [zipSignal subscribeNext:^(id x) {
+//        NSLog(@"%@",x);
+//    }];
+    
+    //combineLatest:将多个信号合并起来，并且拿到各个信号的最新值，必须每个信号都至少有个sendnext 才会触发合并
+    RACSignal *signalG = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        [subscriber sendNext:@1];
+        return nil;
     }];
-    [subject subscribeNext:^(id x) {
-        NSLog(@"订阅第二个信号");
-
+    RACSignal *signalH = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+        [subscriber sendNext:@2];
+        return nil;
     }];
-    
-    [subject sendNext:@1];
-    [subject sendNext:@2];
-
-    
-    
-    
-    
-    
+    [[signalG combineLatestWith:signalH]subscribeNext:^(id x) {
+        NSLog(@"%@",x);
+    }];
     
 }
 
